@@ -3,10 +3,10 @@ import express from 'express'
 import exitHook from 'async-exit-hook'
 import { mapOrder } from '~/utils/sorts.js'
 import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
+import 'dotenv/config'
+import { env } from '~/config/environment'
 const app = express()
 
-const hostname = 'localhost'
-const port = 8017
 
 const START_SERVER = () => {
   app.get('/', (req, res) => {
@@ -23,9 +23,9 @@ const START_SERVER = () => {
     res.end('<h1>Hello World!</h1><hr>')
   })
 
-  app.listen(port, hostname, () => {
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`Hello Trung Quan Dev, I am running at ${ hostname }:${ port }/`)
+    console.log(`Hello Quang Thong, I am running at ${ env.APP_HOST }:${ env.APP_PORT }/`)
   })
   exitHook(() => {
     console.log('Đang ngắt kết nối DB!')
