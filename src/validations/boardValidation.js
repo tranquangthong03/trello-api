@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import Joi from 'joi'
 
-const createNew = async (req, res) => {
+const createNew = async (req, res, next) => {
   const correctCondition = Joi.object({
     title: Joi.string().min(3).max(50).trim().strict(),
     description: Joi.string().min(3).max(256).trim().strict()
@@ -9,7 +9,8 @@ const createNew = async (req, res) => {
   try {
     console.log(req.body)
     await correctCondition.validateAsync(req.body, { abortEarly: false })
-    res.status(StatusCodes.CREATED).json({ Message: 'Post from validation: API create new board' })
+    // Validate dữ liệu xong sẽ được chạy qua tầng controller
+    next()
   } catch (error) {
     console.log(error)
     console.log(new Error)
