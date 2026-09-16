@@ -5,7 +5,7 @@ import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
 import 'dotenv/config'
 import { env } from '~/config/environment'
 import { APIs_V1 } from './routes/v1'
-
+import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware'
 
 
 const START_SERVER = () => {
@@ -15,6 +15,7 @@ const START_SERVER = () => {
 
   app.use('/v1', APIs_V1)
 
+  app.use(errorHandlingMiddleware)
   const server = app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
     console.log(`Hello Quang Thong, I am running at ${ env.APP_HOST }:${ env.APP_PORT }/`)

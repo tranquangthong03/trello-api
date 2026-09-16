@@ -1,14 +1,10 @@
 import { StatusCodes } from 'http-status-codes'
-
+import ApiError from '~/utils/ApiError'
 const createNew = async (req, res, next) => {
   try {
-    console.log(req.body)
     res.status(StatusCodes.CREATED).json({ Message: 'Post from Controller: API create new board' })
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).message({
-      errors: error.message()
-    })
-  }
+    // Tự động chạy sang middleware error handling ở file server nếu có lỗi
+  } catch (error) { next(error) }
 }
 
 export const boardController = {
