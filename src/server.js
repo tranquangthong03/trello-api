@@ -1,5 +1,7 @@
 
 import express from 'express'
+import cors from 'cors'
+import { corsOptions } from './config/cors'
 import { mapOrder } from '~/utils/sorts.js'
 import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
 import 'dotenv/config'
@@ -11,6 +13,8 @@ import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware'
 const START_SERVER = () => {
   const app = express()
 
+  // Xử lý CORS
+  app.use(cors(corsOptions))
   app.use(express.json())
 
   app.use('/v1', APIs_V1)
@@ -18,12 +22,12 @@ const START_SERVER = () => {
   app.use(errorHandlingMiddleware)
   const server = app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`Hello Quang Thong, I am running at ${ env.APP_HOST }:${ env.APP_PORT }/`)
+    console.log(`Hello Quang Thong, I am running at ${env.APP_HOST}:${env.APP_PORT}/`)
   })
 
   server.on('error', (error) => {
     if (error.code === 'EADDRINUSE') {
-      console.error(`Port ${ env.APP_PORT } đang được sử dụng. Hãy dừng process cũ hoặc đổi APP_PORT trong .env.`)
+      console.error(`Port ${env.APP_PORT} đang được sử dụng. Hãy dừng process cũ hoặc đổi APP_PORT trong .env.`)
       process.exit(1)
     }
     throw error
