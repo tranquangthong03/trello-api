@@ -52,7 +52,7 @@ const getDetails = async (id) => {
     // })
     const result = await GET_DB().collection(BOARD_COLLECTION_NAME).aggregate([
       { $match: {
-        // Tìm đúng 1 board có đúng là id đó và 
+        // Tìm đúng 1 board có đúng là id đó và
         _id: new ObjectId(id),
         _destroy: false
       } },
@@ -69,7 +69,7 @@ const getDetails = async (id) => {
         as: 'cards'
       } }
     ]).toArray()
-    return result[0] || {}
+    return result[0] || null
   } catch (error) {
     throw new Error(error)
   }
